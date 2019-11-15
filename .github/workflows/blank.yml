@@ -13,4 +13,4 @@ jobs:
       with:
         node-version: '10.x'
     - name: Update version
-      run: node ./update_package.js
+      run: node update_package.js
