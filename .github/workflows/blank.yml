@@ -12,5 +12,11 @@ jobs:
     - uses: actions/setup-node@v1
       with:
         node-version: '10.x'
+    - name: Extract branch name
+      shell: bash
+      run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+      id: extract_branch
     - name: Update version
       run: node update_package.js
+      with:
+        branch_name: ${{ steps.extract_branch.outputs.branch }}
