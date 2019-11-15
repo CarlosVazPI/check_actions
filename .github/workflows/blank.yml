@@ -17,6 +17,4 @@ jobs:
       run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
       id: extract_branch
     - name: Update version
-      run: node update_package.js
-      with:
-        branch_name: ${{ steps.extract_branch.outputs.branch }}
+      run: node update_package.js ${{ steps.extract_branch.outputs.branch }}
