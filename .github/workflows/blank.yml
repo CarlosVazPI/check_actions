@@ -16,10 +16,12 @@ jobs:
       shell: bash
       run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
       id: extract_branch
-    - name: Update version
-      run: node update_package.js ${{ steps.extract_branch.outputs.branch }}
-    - name: Create Pull Request
-      uses: peter-evans/create-pull-request@v1
-      with:
-        branch: ${{ steps.extract_branch.outputs.branch }}-more
-        token: ${{ secrets.GITHUB_TOKEN }}
+    - name: Do stuff
+      run: node do_stuff.js ${{ steps.extract_branch.outputs.branch }}
+    # - name: Update version
+    #   run: node update_package.js ${{ steps.extract_branch.outputs.branch }}
+    # - name: Create Pull Request
+    #   uses: peter-evans/create-pull-request@v1
+    #   with:
+    #     branch: ${{ steps.extract_branch.outputs.branch }}-more
+    #     token: ${{ secrets.GITHUB_TOKEN }}
