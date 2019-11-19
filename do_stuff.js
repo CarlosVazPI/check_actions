@@ -10,6 +10,9 @@ const { exec } = require('child_process')
 // }).on('error', console.error)
 
 const branch = process.argv[2]
+exec('echo "Doing it" > .log', (error, stdout, stderr) => {
+  console.log('done')
+})
 exec('git clone https://github.com/Intellection/fluid.framework.git', (error, stdout, stderr) => {
   if (error || stderr) {
     console.log(error || stderr)
@@ -39,6 +42,8 @@ exec('git clone https://github.com/Intellection/fluid.framework.git', (error, st
             if (error || stderr) {
               console.log(error || stderr)
               return
+            } else {
+              console.log(stdout)
             }
           })
         })
