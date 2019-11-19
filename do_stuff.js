@@ -13,17 +13,36 @@ const branch = process.argv[2]
 exec('git clone https://github.com/Intellection/fluid.framework.git', (error, stdout, stderr) => {
   if (error || stderr) {
     console.log(error || stderr)
+    return
   }
   exec('cd fluid.framework', (error, stdout, stderr) => {
     if (error || stderr) {
       console.log(error || stderr)
+      return
     }
-    exec(`node update_package ${branch}`, (error, stdout, stderr) => {
+    exec(`git checkout -b automatic_${branch}`, (error, stdout, stderr) => {
       if (error || stderr) {
         console.log(error || stderr)
-      } else {
-        console.log(stdout)
+        return
       }
+      exec(`node update_package ${branch}`, (error, stdout, stderr) => {
+        if (error || stderr) {
+          console.log(error || stderr)
+          return
+        }
+        exec(`git commit -am "Automatically pointing to "${branch}"`, (error, stdout, stderr) => {
+          if (error || stderr) {
+            console.log(error || stderr)
+            return
+          }
+          exec('git push', (error, stdout, stderr) => {
+            if (error || stderr) {
+              console.log(error || stderr)
+              return
+            }
+          })
+        })
+      })
     })
   })
 })
