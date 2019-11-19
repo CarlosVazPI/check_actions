@@ -30,12 +30,13 @@ const run = (command) => () => {
 const branch = process.argv[2]
 run('rm .log')()
   .then(run('touch .log'))
+  .then(run('rm -rf fluid.framework'))
   .then(run('git clone https://github.com/Intellection/fluid.framework.git'))
   .then(run('cd fluid.framework'))
   .then(run(`git checkout -b automatic_${branch}`))
   .then(run(`node update_package ${branch}`))
   .then(run(`git commit -am "Automatically pointing to '${branch}'"`))
-  .then(run('git push'))
+  .then(run(`git push --set-upstream origin automatic_${branch}`))
 // exec('git clone https://github.com/Intellection/fluid.framework.git', (error, stdout, stderr) => {
 //   if (error || stderr) {
 //     console.log('Error', error || stderr)
