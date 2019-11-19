@@ -6,10 +6,9 @@ const run = (command, options) => () => {
     console.log("\x1b[36m", '> ', command)
     exec(command, options, (error, stdout, stderr) => {
       if (error) {
-        console.log("\x1b[31m", '< ', command, error)
-        exec(`echo "Error: ${error, stderr}" >> .log`)
+        console.log("\x1b[31m", '< ', error)
       } else {
-        console.log("\x1b[32m", '< ', command, stdout)
+        console.log("\x1b[32m", '< ', stdout)
         if (stderr) {
           console.log("\x1b[37m", '  ', stderr)
         }
@@ -28,9 +27,8 @@ const run = (command, options) => () => {
 // }).on('error', console.error)
 
 const branch = process.argv[2]
-run('rm .log')()
-  .then(run('touch .log'))
-  .then(run('rm -rf fluid.framework'))
+
+run('rm -rf fluid.framework')()
   .then(run('git clone https://github.com/Intellection/fluid.framework.git'))
   .then(run('cd fluid.framework'))
   .then(run(`git checkout -b automatic_${branch}`, { cwd: './fluid.framework' }))
